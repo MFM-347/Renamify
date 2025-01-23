@@ -103,7 +103,7 @@
     android:layout_marginLeft="16dp"
     android:hint="Select Order"
     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-    app:endIconMode="dropdown"
+    app:endIconMode="dropdown_menu"
     app:layout_constraintTop_toBottomOf="@+id/baseNameInputLayout"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent">
