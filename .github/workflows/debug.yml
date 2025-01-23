@@ -1,0 +1,36 @@
+name: Build debug-app
+'on':
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out branch
+        uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2.0.10
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      - name: Build Debug apk
+        run: ./gradlew assembleDebug
+      - name: Build Debug bundle
+        run: ./gradlew bundleDebug
+      - name: Get debug file aab path
+        id: debugAab
+        run: echo "aabfile=$(find app/build/outputs/bundle/debug/*.aab)" >> $GITHUB_OUTPUT
+      - name: Get debug file apk path
+        id: debugApk
+        run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
+      - name: Upload Debug Build to Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: debug-artifacts
+          path: |
+            ${{ steps.debugAab.outputs.aabfile }}
+            ${{ steps.debugApk.outputs.apkfile }}
