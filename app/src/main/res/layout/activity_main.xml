@@ -2,20 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:padding="16dp"
-  android:textSize="16sp"
-  tools:context=".MainActivity">
-
+  android:textSize="16sp">
+  
   <ImageView
     android:id="@+id/appIcon"
     android:layout_width="64dp"
     android:layout_height="64dp"
     android:contentDescription="@string/app_name"
-    android:src="@mipmap/ic_launcher"
+    android:src="@drawable/logo"
     android:layout_marginTop="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent" />
@@ -28,17 +27,96 @@
     android:textSize="20sp"
     android:textStyle="bold"
     android:layout_marginTop="8dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
     app:layout_constraintTop_toBottomOf="@+id/appIcon"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent" />
 
-  <com.google.android.material.switchmaterial.SwitchMaterial
-    android:id="@+id/darkModeSwitch"
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/directoryInputLayout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:hint="Directory Path"
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    app:endIconMode="clear_text"
+    app:helperText="Select a directory using the Browse button."
+    app:layout_constraintTop_toBottomOf="@+id/appName"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/directoryEditText"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:focusable="false"
+      android:clickable="true" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.button.MaterialButton
+    android:id="@+id/browseButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"
-    android:layout_marginEnd="12dp"
+    android:layout_marginTop="8dp"
+    android:text="Browse"
+    android:contentDescription="Browse directory"
+    app:icon="@drawable/ic_folder_open"
+    app:iconGravity="textStart"
+    app:iconPadding="8dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    app:layout_constraintTop_toBottomOf="@+id/directoryInputLayout"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    style="@style/Widget.Material3.Button.ElevatedButton.Icon" />
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/baseNameInputLayout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:hint="Base Name"
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    app:endIconMode="clear_text"
+    app:layout_constraintTop_toBottomOf="@+id/browseButton"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/baseNameEditText"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.button.MaterialButton
+    android:id="@+id/renameButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="24dp"
+    android:text="Rename Files"
+    app:icon="@drawable/ic_edit"
+    app:iconGravity="textStart"
+    app:iconPadding="8dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:enabled="false"
+    app:layout_constraintTop_toBottomOf="@+id/baseNameInputLayout"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    style="@style/Widget.Material3.Button.ElevatedButton.Icon" />
+    
+  <com.google.android.material.textview.MaterialTextView
+    android:id="@+id/createdByText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginBottom="7.5dp"
+    android:text="Created by MFM-347"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+    app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,10 +2,10 @@ plugins {
     id 'com.android.application'
 }
 android {
-    namespace 'dev.mfm.app'
+    namespace 'dev.mfm.renamify'
     compileSdk 33
     defaultConfig {
-        applicationId "dev.mfm.app"
+        applicationId "dev.mfm.renamify"
         minSdk 21
         targetSdk 33
         versionCode 1

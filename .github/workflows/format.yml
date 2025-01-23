@@ -21,10 +21,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
-          node-version: '16'
+          distribution: temurin
+          java-version: 17
 
       - name: Configure Prettier
         run: |
@@ -44,11 +45,12 @@ jobs:
       - name: Install Prettier with plugins
         run: |
           npm i -D prettier prettier-plugin-java
-
+          
       - name: Format all files
         run: |
           npx prettier -w **/*.md
-          npx prettier -w **/*.java  --plugin=prettier-plugin-java
+          npx prettier -w **/*.java --plugin=prettier-plugin-java
+          find . -type f -name "*.xml" -exec java -jar tools/android-xml-formatter.jar --indention 2 --attribute-indention 2 {} \;
 
       - name: Clean up unnecessary files
         run: |
@@ -57,9 +59,13 @@ jobs:
           rm -f package-lock.json
           rm -f .prettierrc
           rm -f .prettierignore
+
       - name: Commit changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "auto-format" || echo "No changes to commit"
+          git push
