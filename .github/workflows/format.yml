@@ -1,14 +1,14 @@
-name: AutoFormat
+name: format
 
 on:
   push:
     paths:
-      - '**/*'
+      - "**/*"
     branches:
       - main
   pull_request:
     paths:
-      - '**/*'
+      - "**/*"
     branches:
       - main
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
             "singleQuote": true,
             "tabWidth": 2,
             "trailingComma": "es5",
-            "printWidth": 80,
+            "printWidth": 100,
             "arrowParens": "always"
           }' > .prettierrc
           echo '*.min.*
@@ -45,7 +45,7 @@ jobs:
       - name: Install Prettier with plugins
         run: |
           npm i -D prettier prettier-plugin-java
-          
+
       - name: Format all files
         run: |
           npx prettier -w **/*.md
@@ -67,5 +67,5 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add .
-          git commit -m "auto-format" || echo "No changes to commit"
+          git commit -m "format" || echo "No changes to commit"
           git push

@@ -5,4 +5,18 @@
     name="app_name">
 Renamify</string>
 
+  <string-array
+    name="rename_order">
+
+    <item>
+New to Old</item>
+
+    <item>
+Old to New</item>
+
+    <item>
+Alphabetic</item>
+
+  </string-array>
+
 </resources>

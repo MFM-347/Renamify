@@ -94,6 +94,30 @@
 
   </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/orderInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:hint="Select Order"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:endIconMode="dropdown"
+        app:layout_constraintTop_toBottomOf="@+id/baseNameInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/orderSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="true"/>
+
+  </com.google.android.material.textfield.TextInputLayout>
+
   <com.google.android.material.button.MaterialButton
     android:id="@+id/renameButton"
     android:layout_width="wrap_content"
@@ -110,15 +134,5 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     style="@style/Widget.Material3.Button.ElevatedButton.Icon" />
-
-  <com.google.android.material.textview.MaterialTextView
-    android:id="@+id/createdByText"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="5dp"
-    android:layout_marginBottom="7.5dp"
-    android:text="Created by MFM-347"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

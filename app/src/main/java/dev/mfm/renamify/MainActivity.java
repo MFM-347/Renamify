@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.Settings;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -21,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.documentfile.provider.DocumentFile;
 import dev.mfm.renamer.databinding.ActivityMainBinding;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,10 +38,21 @@ public class MainActivity extends AppCompatActivity {
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
-    binding.browseButton.setOnClickListener(view ->
-      requestPermissionsIfNecessary()
-    );
+    setupSpinner();
+
+    binding.browseButton.setOnClickListener(view -> requestPermissionsIfNecessary());
     binding.renameButton.setOnClickListener(view -> startRenaming());
+  }
+
+  private void setupSpinner() {
+    AutoCompleteTextView orderSpinner = (AutoCompleteTextView) binding.orderSpinner;
+    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+      this,
+      R.array.rename_order,
+      android.R.layout.simple_dropdown_item_1line
+    );
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    orderSpinner.setAdapter(adapter);
   }
 
   private void requestPermissionsIfNecessary() {
@@ -54,10 +68,7 @@ public class MainActivity extends AppCompatActivity {
       }
     } else {
       if (
-        ContextCompat.checkSelfPermission(
-          this,
-          Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) !=
+        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
         PackageManager.PERMISSION_GRANTED
       ) {
         ActivityCompat.requestPermissions(
@@ -72,42 +83,30 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private final ActivityResultLauncher<Intent> storagePermissionLauncher =
-    registerForActivityResult(
-      new ActivityResultContracts.StartActivityForResult(),
-      result -> {
-        if (Environment.isExternalStorageManager()) {
-          openDirectoryPicker();
-        } else {
-          Toast.makeText(
-            this,
-            "Permission required to access storage",
-            Toast.LENGTH_SHORT
-          ).show();
-        }
+    registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+      if (Environment.isExternalStorageManager()) {
+        openDirectoryPicker();
+      } else {
+        Toast.makeText(this, "Permission required to access storage", Toast.LENGTH_SHORT).show();
       }
-    );
+    });
 
   private void openDirectoryPicker() {
     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
     directoryPickerLauncher.launch(intent);
   }
 
-  private final ActivityResultLauncher<Intent> directoryPickerLauncher =
-    registerForActivityResult(
-      new ActivityResultContracts.StartActivityForResult(),
-      result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-          selectedDirectoryUri = result.getData().getData();
-          binding.directoryEditText.setText(selectedDirectoryUri.toString());
-        } else {
-          Toast.makeText(
-            this,
-            "Directory selection canceled or failed.",
-            Toast.LENGTH_SHORT
-          ).show();
-        }
+  private final ActivityResultLauncher<Intent> directoryPickerLauncher = registerForActivityResult(
+    new ActivityResultContracts.StartActivityForResult(),
+    result -> {
+      if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+        selectedDirectoryUri = result.getData().getData();
+        binding.directoryEditText.setText(selectedDirectoryUri.toString());
+      } else {
+        Toast.makeText(this, "Directory selection canceled or failed.", Toast.LENGTH_SHORT).show();
       }
-    );
+    }
+  );
 
   private void startRenaming() {
     String baseName = binding.baseNameEditText.getText().toString().trim();
@@ -121,16 +120,9 @@ public class MainActivity extends AppCompatActivity {
       return;
     }
 
-    DocumentFile directory = DocumentFile.fromTreeUri(
-      this,
-      selectedDirectoryUri
-    );
+    DocumentFile directory = DocumentFile.fromTreeUri(this, selectedDirectoryUri);
     if (directory == null || !directory.isDirectory()) {
-      Toast.makeText(
-        this,
-        "Invalid directory selected.",
-        Toast.LENGTH_SHORT
-      ).show();
+      Toast.makeText(this, "Invalid directory selected.", Toast.LENGTH_SHORT).show();
       return;
     }
 
@@ -146,9 +138,25 @@ public class MainActivity extends AppCompatActivity {
       return;
     }
 
-    Arrays.sort(files, (file1, file2) ->
-      Long.compare(file2.lastModified(), file1.lastModified())
-    );
+    String selectedOrder = ((AutoCompleteTextView) binding.orderSpinner).getText().toString();
+
+    switch (selectedOrder) {
+      case "New to Old":
+        Arrays.sort(files, (file1, file2) ->
+          Long.compare(file2.lastModified(), file1.lastModified())
+        );
+        break;
+      case "Old to New":
+        Arrays.sort(files, (file1, file2) ->
+          Long.compare(file1.lastModified(), file2.lastModified())
+        );
+        break;
+      case "Alphabetic":
+        Arrays.sort(files, Comparator.comparing(DocumentFile::getName));
+        break;
+      default:
+        break;
+    }
 
     for (DocumentFile file : files) {
       if (file.isFile()) {
@@ -163,22 +171,14 @@ public class MainActivity extends AppCompatActivity {
         boolean renamed = file.renameTo(newFileName);
 
         if (!renamed) {
-          Toast.makeText(
-            this,
-            "Error renaming file: " + file.getName(),
-            Toast.LENGTH_SHORT
-          ).show();
+          Toast.makeText(this, "Error renaming file: " + file.getName(), Toast.LENGTH_SHORT).show();
         } else {
           index++;
         }
       }
     }
 
-    Toast.makeText(
-      this,
-      "Files renamed successfully!",
-      Toast.LENGTH_LONG
-    ).show();
+    Toast.makeText(this, "Files renamed successfully!", Toast.LENGTH_LONG).show();
   }
 
   @Override
@@ -189,17 +189,10 @@ public class MainActivity extends AppCompatActivity {
   ) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     if (requestCode == REQUEST_CODE_PERMISSION) {
-      if (
-        grantResults.length > 0 &&
-        grantResults[0] == PackageManager.PERMISSION_GRANTED
-      ) {
+      if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
         openDirectoryPicker();
       } else {
-        Toast.makeText(
-          this,
-          "Permission required to access storage",
-          Toast.LENGTH_SHORT
-        ).show();
+        Toast.makeText(this, "Permission required to access storage", Toast.LENGTH_SHORT).show();
       }
     }
   }
