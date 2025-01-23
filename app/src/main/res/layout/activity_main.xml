@@ -94,27 +94,27 @@
 
   </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/orderInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:hint="Select Order"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:endIconMode="dropdown"
-        app:layout_constraintTop_toBottomOf="@+id/baseNameInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/orderInputLayout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:hint="Select Order"
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    app:endIconMode="dropdown"
+    app:layout_constraintTop_toBottomOf="@+id/baseNameInputLayout"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
 
-        <AutoCompleteTextView
-            android:id="@+id/orderSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            android:focusable="false"
-            android:clickable="true"/>
+    <AutoCompleteTextView
+      android:id="@+id/orderSpinner"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="none"
+      android:focusable="false"
+      android:clickable="true" />
 
   </com.google.android.material.textfield.TextInputLayout>
 
