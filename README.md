@@ -4,8 +4,10 @@
 ![Java](https://img.shields.io/badge/Java-red?logo=Java&logoColor=white&style=for-the-badge)
 ![Material You](https://custom-icon-badges.demolab.com/badge/material%20you-lightblue?style=for-the-badge&logoColor=333&logo=material-you)
 ![GitHub code size](https://img.shields.io/github/languages/code-size/MFM-347/Renamify?style=for-the-badge&color=505B92)
+![Github Repo Size](https://img.shields.io/github/repo-size/MFM-347/Renamify?style=for-the-badge&color=505B92)
 ![Stars](https://img.shields.io/github/stars/MFM-347/Renamify?color=blue&style=for-the-badge)
-![Latest Release](https://img.shields.io/github/v/release/MFM-347/Renamify?color=B9C3FF&include_prereleases&logo=github&style=for-the-badge)
+![Latest Release](https://img.shields.io/github/v/release/MFM-347/Renamify?color=B9C3FF&include_prereleases&style=for-the-badge)
+![Last Commit](https://img.shields.io/github/last-commit/MFM-347/Renamify?color=F05032&style=for-the-badge)
 
 A fast, customizable file renaming app for Android. Renamify offers a lightning-fast, customizable renaming experience, ideal for organizing files quickly on your Android device.
 
